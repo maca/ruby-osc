@@ -1,0 +1,15 @@
+History.txt
+Manifest.txt
+README.rdoc
+Rakefile
+examples/localtest.rb
+lib/ruby-osc.rb
+lib/ruby-osc/bundle.rb
+lib/ruby-osc/client.rb
+lib/ruby-osc/message.rb
+lib/ruby-osc/server.rb
+ruby-osc.gemspec
+spec/bundle_spec.rb
+spec/message_spec.rb
+spec/server_spec.rb
+spec/spec_helper.rb
