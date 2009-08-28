@@ -46,7 +46,7 @@ eventmachine
 
 == INSTALL:
 
-sudo gem install maca-ruby_osc –source http://gems.github.com
+sudo gem install maca-ruby-osc –source http://gems.github.com
 
 == TODO:
 
