@@ -1,6 +1,6 @@
 = ruby-osc
 
-Concise OSC client for Ruby
+Concise OSC implementation for Ruby
 
   * 1.9.1 and jRuby compatible
   * Complies with OSC 1.0 specification
