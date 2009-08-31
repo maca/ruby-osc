@@ -36,6 +36,8 @@ module OSC
       when Message
         dispatch decoded
       end
+      rescue => e 
+        warn("Bad data received: #{ e }")
     end
 
     private
@@ -61,9 +63,8 @@ module OSC
       end
 
       def receive_data data
-        @server.receive data
+        @server.receive(data) 
       end
     end
-
   end
 end

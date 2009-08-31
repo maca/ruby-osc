@@ -2,7 +2,13 @@ require "#{ File.dirname __FILE__ }/spec_helper"
 
 describe Message do
   
-  it "should raise TypeError if passing wrong type"
+  it "should raise TypeError if passing wrong type" do
+    lambda { Message.new('address', Class) }.should raise_error(TypeError)
+  end
+  
+  it "should raise TypeError if not passing a string for address" do
+    lambda { Message.new(OSC) }.should raise_error(TypeError)
+  end
   
   it "should have address" do
     Message.new('/foo/bar').address.should == '/foo/bar'
@@ -24,20 +30,38 @@ describe Message do
     Message.new('/foo/bar', 'string').args.should == ['string']
   end
   
-  it "should accept true" do
-    Message.new('/foo/bar', true).args.should == [true]
-  end
-  
-  it "should accept false" do
-    Message.new('/foo/bar', false).args.should == [false]
-  end
-  
   it "should accept Blob" do
     Message.new('/foo/bar', Blob.new('blob')).args.should == [Blob.new('blob')]
   end
   
   it "should convert to array" do
     Message.new('/foo/bar', 1, 2, 3, 4).to_a.should == ['/foo/bar', 1, 2, 3, 4]
+  end
+  
+  describe 'Custom argument coercion' do
+    
+    before do
+      TrueClass.send(:include, OSCArgument)
+      TrueClass.send( :define_method, :to_osc_type){ 1 }
+      FalseClass.send(:include, OSCArgument)
+      FalseClass.send( :define_method, :to_osc_type){ 0 }
+      Hash.send(:include, OSCArgument)
+      Hash.send( :define_method, :to_osc_type) do 
+        self.to_a.collect{ |pair| pair.collect{ |a| OSC.coerce_argument a } }
+      end
+    end
+    
+    it "should accept true" do
+      Message.new('/foo/bar', true).args.should == [1]
+    end
+
+    it "should accept false" do
+      Message.new('/foo/bar', false).args.should == [0]
+    end
+
+    it "should accept hash" do
+      Message.new('/foo/bar', {:a => :b}).args.should == ["a", "b"]
+    end
   end
   
   describe 'Encode/decode' do
@@ -125,7 +149,7 @@ describe Message do
       it "should raise if size doesn't correspond and return empty message" do
         lambda do
           Message.decode("/foo/bar\000\000\000\000,b\000\000\000\000\000\020test blob\000\000\000")
-        end.should raise_error(DecodeError)
+        end.should raise_error
       end
     end
     
@@ -136,8 +160,5 @@ describe Message do
       end
       it_should_behave_like 'Encodable'
     end
-    
-  end
-  
-    
+  end    
 end

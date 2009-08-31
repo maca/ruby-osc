@@ -2,9 +2,9 @@
 
 Concise OSC client for Ruby
 
-  * 1.9.1 compatible
+  * 1.9.1 and jRuby compatible
   * Complies with OSC 1.0 specification
-  * Uses EventMachine for networking and low cost precise bundle scheduling
+  * Uses EventMachine for networking and lightweight soft-real-time bundle scheduling
   
 http://github.com/maca/ruby-osc
   
