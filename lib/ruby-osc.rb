@@ -3,6 +3,7 @@ require 'rubygems'
 require 'eventmachine'
 require 'socket' # Strange side effects with eventmachine udp client and SuperCollider
 require 'strscan'
+require 'thread'
 
 $:.unshift( File.dirname( __FILE__ ) )
 
@@ -12,7 +13,7 @@ require 'ruby-osc/server'
 require 'ruby-osc/client'
 
 module OSC
-  VERSION = '0.3.0'
+  VERSION = '0.3.1'
   Thread  = EM.reactor_running? ? nil : Thread.new { EM.run }
   Thread.run if RUBY_VERSION.to_f >= 1.9
   EM.error_handler { |e| puts e }

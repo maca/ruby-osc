@@ -1,4 +1,4 @@
-# From the Funaba osc gem
+# From the Funaba osc gem:
 module OSC
   class Client
  

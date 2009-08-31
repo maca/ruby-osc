@@ -6,6 +6,7 @@ module OSC
     def initialize port, address = 'localhost'
       @port, @address   = port, address
       @queue, @patterns = [], []
+      @mutex = Mutex.new
       run
     end
 
@@ -32,21 +33,23 @@ module OSC
     def receive data
       case decoded = OSC.decode(data)
       when Bundle
-        decoded.timetag.nil? ? decoded.each{ |m| dispatch m } : @queue.push(decoded)
+        decoded.timetag.nil? ? decoded.each{ |m| dispatch m } : @mutex.synchronize{@queue.push(decoded)}
       when Message
         dispatch decoded
       end
       rescue => e 
-        warn("Bad data received: #{ e }")
+        warn "Bad data received: #{ e }"
     end
 
     private
     def check_queue
       @timer = EventMachine::PeriodicTimer.new 0.002 do
         now  = Time.now
-        @queue.delete_if do |bundle| # Not shure about thread safety, how many threads are we running?
-          bundle.each{ |m| dispatch m } if delete = now >= bundle.timetag
-          delete
+        @mutex.synchronize do
+          @queue.delete_if do |bundle|
+            bundle.each{ |m| dispatch m } if delete = now >= bundle.timetag
+            delete
+          end
         end
       end
     end
