@@ -1,12 +1,12 @@
 = ruby-osc
 
+http://github.com/maca/ruby-osc
+
 Concise OSC implementation for Ruby
 
   * 1.9.1 and jRuby compatible
   * Complies with OSC 1.0 specification
   * Uses EventMachine for networking and lightweight soft-real-time bundle scheduling
-  
-http://github.com/maca/ruby-osc
   
 == SYNOPSIS:
 
@@ -46,8 +46,10 @@ eventmachine
 
 == INSTALL:
 
-sudo gem install maca-ruby-osc –source http://gems.github.com
+	sudo gem install ruby-osc –-source http://gemcutter.org
 
+	Although I prefer not to use sudo: http://dev.innovationfactory.nl/2009/10/26/never-use-sudo-gem-install-again/
+	
 == TODO:
 
 - OSC 1.1 compatibility mode

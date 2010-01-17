@@ -65,7 +65,7 @@ describe Message do
   end
   
   describe 'Encode/decode' do
-    shared_examples_for 'Encodable' do
+    shared_examples_for 'Encodable Message' do
       it "should encode" do
         @message.encode.should == @expected
       end
@@ -88,7 +88,7 @@ describe Message do
         @message  = Message.new('/foo/bar/long/very/long/long/long/address')
         @expected = "/foo/bar/long/very/long/long/long/address\000\000\000,\000\000\000"
       end
-      it_should_behave_like 'Encodable'
+      it_should_behave_like 'Encodable Message'
     end
     
     describe 'Integer' do
@@ -96,7 +96,7 @@ describe Message do
         @message  = Message.new('/foo/barz', 2)
         @expected = "/foo/barz\000\000\000,i\000\000\000\000\000\002"
       end
-      it_should_behave_like 'Encodable'
+      it_should_behave_like 'Encodable Message'
     end
     
     describe 'Negative Integer' do
@@ -104,7 +104,7 @@ describe Message do
         @message  = Message.new('/foo/barz', -2)
         @expected = "/foo/barz\000\000\000,i\000\000\377\377\377\376"
       end
-      it_should_behave_like 'Encodable'
+      it_should_behave_like 'Encodable Message'
     end
     
     describe 'Float' do
@@ -112,7 +112,7 @@ describe Message do
         @message  = Message.new('/foo/bar', 1.10000002384186)
         @expected = [47, 102, 111, 111, 47, 98, 97, 114, 0, 0, 0, 0, 44, 102, 0, 0, 63, 140, 204, 205].pack('C*')
       end
-      it_should_behave_like 'Encodable'
+      it_should_behave_like 'Encodable Message'
     end
     
     describe 'Negative Float' do
@@ -120,7 +120,7 @@ describe Message do
         @message  = Message.new('/foo/bar', -1.10000002384186)
         @expected = [47, 102, 111, 111, 47, 98, 97, 114, 0, 0, 0, 0, 44, 102, 0, 0, 191, 140, 204, 205].pack('C*')
       end
-      it_should_behave_like 'Encodable'
+      it_should_behave_like 'Encodable Message'
     end
     
     describe 'String' do
@@ -128,7 +128,7 @@ describe Message do
         @message  = Message.new('/foo/bar', 'a string to encode')
         @expected = "/foo/bar\000\000\000\000,s\000\000a string to encode\000\000"
       end
-      it_should_behave_like 'Encodable'
+      it_should_behave_like 'Encodable Message'
     end
 
     describe 'Multiple types' do
@@ -136,7 +136,7 @@ describe Message do
         @message  = Message.new('/foo/barzzz', 2, 1.44000005722046, 'basho')
         @expected = [47, 102, 111, 111, 47, 98, 97, 114, 122, 122, 122, 0, 44, 105, 102, 115, 0, 0, 0, 0, 0, 0, 0, 2, 63, 184, 81, 236, 98, 97, 115, 104, 111, 0, 0, 0].pack('C*')
       end
-      it_should_behave_like 'Encodable'
+      it_should_behave_like 'Encodable Message'
     end
     
     describe 'Blob' do
@@ -144,7 +144,7 @@ describe Message do
         @message  = Message.new('/foo/bar', Blob.new('test blob'))
         @expected = "/foo/bar\000\000\000\000,b\000\000\000\000\000\ttest blob\000\000\000"
       end
-      it_should_behave_like 'Encodable'
+      it_should_behave_like 'Encodable Message'
       
       it "should raise if size doesn't correspond and return empty message" do
         lambda do
@@ -158,7 +158,7 @@ describe Message do
         @message  = Message.new('/bar/foo', 4, 3, 2, 1)
         @expected = "/bar/foo\000\000\000\000,iiii\000\000\000\000\000\000\004\000\000\000\003\000\000\000\002\000\000\000\001" 
       end
-      it_should_behave_like 'Encodable'
+      it_should_behave_like 'Encodable Message'
     end
   end    
 end
