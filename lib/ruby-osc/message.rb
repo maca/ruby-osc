@@ -41,7 +41,7 @@ module OSC
       tags.scan(/\w/) do |tag|
         case tag
         when 'i'
-          int = scanner.scan(/.{4}/).unpack('N').first
+          int = scanner.scan(/.{4}/nm).unpack('N').first
           args.push( int > (2**31-1) ? int - 2**32 : int )
         when 'f'
           args.push scanner.scan(/.{4}/nm).unpack('g').first
