@@ -46,9 +46,7 @@ eventmachine
 
 == INSTALL:
 
-	sudo gem install ruby-osc –-source http://gemcutter.org
-
-	Although I prefer not to use sudo: http://dev.innovationfactory.nl/2009/10/26/never-use-sudo-gem-install-again/
+	[sudo] gem install ruby-osc
 	
 == TODO:
 
