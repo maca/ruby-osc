@@ -13,7 +13,7 @@ require 'ruby-osc/server'
 require 'ruby-osc/client'
 
 module OSC
-  VERSION = '0.3.1'
+  VERSION = '0.3.2'
   Thread  = EM.reactor_running? ? nil : Thread.new { EM.run }
   Thread.run if RUBY_VERSION.to_f >= 1.9
   EM.error_handler { |e| puts e }
