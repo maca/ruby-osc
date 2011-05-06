@@ -1,4 +1,3 @@
-
 require 'rubygems'
 require 'eventmachine'
 require 'socket' # Strange side effects with eventmachine udp client and SuperCollider
@@ -14,10 +13,13 @@ require 'ruby-osc/client'
 
 module OSC
   VERSION = '0.3.2'
-  Thread  = EM.reactor_running? ? nil : Thread.new { EM.run }
+  Thread  = EM.reactor_running? ? nil : Thread.new { 
+    EM.run do 
+      EM.error_handler { |e| puts e }
+      EM.set_quantum 5 
+    end	
+  }
   Thread.run if RUBY_VERSION.to_f >= 1.9
-  EM.error_handler { |e| puts e }
-  EM.set_quantum 5
     
   class DecodeError < StandardError; end
   
