@@ -4,7 +4,7 @@ module OSC
  
     def initialize port, host = 'localhost'
       @socket = UDPSocket.new
-      @socket.connect 'localhost', port
+      @socket.connect host, port
     end
  
     def send mesg, *args
