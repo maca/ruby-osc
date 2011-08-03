@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.version     = Osc::VERSION
   s.authors     = ["Macario"]
   s.email       = ["macarui@gmail.com"]
-  s.homepage    = "makarius.me"
+  s.homepage    = "http://makarius.me"
   s.summary     = %q{Concise OSC Ruby implementation}
   s.description = %q{Concise OSC Ruby implementation}
 
