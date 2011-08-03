@@ -4,15 +4,13 @@ require 'socket' # Strange side effects with eventmachine udp client and SuperCo
 require 'strscan'
 require 'thread'
 
-$:.unshift( File.dirname( __FILE__ ) )
-
 require 'ruby-osc/message'
 require 'ruby-osc/bundle'
 require 'ruby-osc/server'
 require 'ruby-osc/client'
+require "ruby-osc/version"
 
 module OSC
-  VERSION = '0.3.2'
   Thread  = EM.reactor_running? ? nil : Thread.new { 
     EM.run do 
       EM.error_handler { |e| puts e }

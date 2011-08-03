@@ -1,7 +1,6 @@
 require "#{ File.dirname __FILE__ }/spec_helper"
 
 describe Bundle do
-  
   it "should accept bundle" do
     Bundle.new( Time.now, Bundle.new ).to_a.should == [Bundle.new]
   end
@@ -22,23 +21,21 @@ describe Bundle do
     Bundle.new nil
   end
 
-  describe 'Encode/decode' do
-    shared_examples_for 'Encodable Bundle' do
-      it "should encode" do
-        @bundle.encode.should == @expected
-      end
-      
-      it "should decode to bundle" do
-        Bundle.decode(@expected).should be_a(Bundle)
-      end
-      
-      it "should decode timetag" do
-        Bundle.decode(@expected).timetag.should == @bundle.timetag
-      end
-      
-      it "should actually decode" do
-        Bundle.decode(@expected).should == @bundle
-      end
+  shared_examples_for 'Encodable Bundle' do
+    it "should encode" do
+      @bundle.encode.should == @expected
+    end
+
+    it "should decode to bundle" do
+      Bundle.decode(@expected).should be_a(Bundle)
+    end
+
+    it "should decode timetag" do
+      Bundle.decode(@expected).timetag.should == @bundle.timetag
+    end
+
+    it "should actually decode" do
+      Bundle.decode(@expected).should == @bundle
     end
   end
   

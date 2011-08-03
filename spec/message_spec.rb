@@ -109,7 +109,7 @@ describe Message do
     
     describe 'Float' do
       before do
-        @message  = Message.new('/foo/bar', 1.10000002384186)
+        @message  = Message.new('/foo/bar', 1.100000023841858)
         @expected = [47, 102, 111, 111, 47, 98, 97, 114, 0, 0, 0, 0, 44, 102, 0, 0, 63, 140, 204, 205].pack('C*')
       end
       it_should_behave_like 'Encodable Message'
@@ -117,7 +117,7 @@ describe Message do
     
     describe 'Negative Float' do
       before do
-        @message  = Message.new('/foo/bar', -1.10000002384186)
+        @message  = Message.new('/foo/bar', -1.100000023841858)
         @expected = [47, 102, 111, 111, 47, 98, 97, 114, 0, 0, 0, 0, 44, 102, 0, 0, 191, 140, 204, 205].pack('C*')
       end
       it_should_behave_like 'Encodable Message'
@@ -133,7 +133,7 @@ describe Message do
 
     describe 'Multiple types' do
       before do
-        @message  = Message.new('/foo/barzzz', 2, 1.44000005722046, 'basho')
+        @message  = Message.new('/foo/barzzz', 2, 1.440000057220459, 'basho')
         @expected = [47, 102, 111, 111, 47, 98, 97, 114, 122, 122, 122, 0, 44, 105, 102, 115, 0, 0, 0, 0, 0, 0, 0, 2, 63, 184, 81, 236, 98, 97, 115, 104, 111, 0, 0, 0].pack('C*')
       end
       it_should_behave_like 'Encodable Message'
