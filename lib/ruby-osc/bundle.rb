@@ -26,7 +26,7 @@ module OSC
       string.sub! /^#bundle\000/, ''
       t1, t2, content_str = string.unpack('N2a*')
       
-      timetag   = Time.at(t1 + t2 / (2**32.0) - 2_208_988_800)
+      timetag   = t1 == 0 && t2 == 1 ? nil : Time.at(t1 + t2 / (2**32.0) - 2_208_988_800)
       scanner   = StringScanner.new content_str
       args      = []
       
