@@ -32,36 +32,50 @@ module OSC
 
     def self.decode string
       scanner        = StringScanner.new string
-      address, tags  = (1..2).map do
-        string       = scanner.scan(/[^\000]+\000/)
-        scanner.pos += OSC.padding_size(string.bytesize)
-        string.chomp("\000")
-      end
-
-      args = []
-      tags.scan(/\w/) do |tag|
-        case tag
-        when 'i'
-          int = scanner.scan(/.{4}/nm).unpack('N').first
-          args.push( int > (2**31-1) ? int - 2**32 : int )
-        when 'f'
-          args.push scanner.scan(/.{4}/nm).unpack('g').first
-        when 's'
-          str = scanner.scan(/[^\000]+\000/)
-          scanner.pos += OSC.padding_size(str.size)
-          args.push str.chomp("\000").force_encoding("UTF-8")
-        when 'b'
-          size = scanner.scan(/.{4}/).unpack('N').first
-          str  = scanner.scan(/.{#{ size }}/nm)
-          scanner.pos += OSC.padding_size(size + 4)
-          args.push Blob.new(str)
-        else
-          raise DecodeError, "#{ tag } is not a known tag"
-        end
-      end
-
-      new address, *args
+      msg            = self.decode_message scanner
+      raise DecodeError if not scanner.eos?
+      return msg
     end
 
+    def self.decode_message scanner
+      pos = scanner.pos
+      begin
+        address, tags  = (1..2).map do
+          string       = scanner.scan(/[^\000]+\000/)
+          raise DecodeError, "no address or tags" if string.nil?
+          scanner.pos += OSC.padding_size(string.bytesize)
+          string.chomp("\000")
+        end
+
+        args = []
+        tags.scan(/\w/) do |tag|
+          case tag
+          when 'i'
+            int = scanner.scan(/.{4}/nm).unpack('N').first
+            args.push( int > (2**31-1) ? int - 2**32 : int )
+          when 'f'
+            args.push scanner.scan(/.{4}/nm).unpack('g').first
+          when 's'
+            str = scanner.scan(/[^\000]+\000/)
+            scanner.pos += OSC.padding_size(str.size)
+            args.push str.chomp("\000").force_encoding("UTF-8")
+          when 'b'
+            size = scanner.scan(/.{4}/).unpack('N').first
+            str  = scanner.scan(/.{#{ size }}/nm)
+            scanner.pos += OSC.padding_size(size + 4)
+            args.push Blob.new(str)
+          else
+            raise DecodeError, "#{ tag } is not a known tag"
+          end
+        end
+        new address, *args
+      end
+    rescue DecodeError => e
+      scanner.pos = pos
+      raise e
+    rescue => e
+      scanner.pos = pos
+      raise DecodeError, e
+    end
   end
 end
