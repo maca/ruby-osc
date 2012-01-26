@@ -14,6 +14,7 @@ module OSC
     end
 
     def tryparse
+      # TODO check for bundle - use OSC.decode
       m = Message.decode_message @scanner
       @scanner.string = @scanner.rest
       return m
