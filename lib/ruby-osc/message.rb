@@ -34,7 +34,7 @@ module OSC
       scanner        = StringScanner.new string
       address, tags  = (1..2).map do
         string       = scanner.scan(/[^\000]+\000/)
-        scanner.pos += OSC.padding_size(string.size)
+        scanner.pos += OSC.padding_size(string.bytesize)
         string.chomp("\000")
       end
 

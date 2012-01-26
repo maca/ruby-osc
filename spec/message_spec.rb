@@ -14,6 +14,10 @@ describe Message do
   it "should have address" do
     Message.new('/foo/bar').address.should == '/foo/bar'
   end
+
+  it "should accept utf8 address" do
+    Message.new('/foo/bär').address.should == '/foo/bär'
+  end
   
   it "should collect args" do
     Message.new('/foo/bar', 1, 2, 3, 4).args.size.should == 4
