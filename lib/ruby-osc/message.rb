@@ -1,4 +1,7 @@
 # encoding: UTF-8
+require 'strscan'
+require 'ruby-osc/helper'
+
 module OSC
   class Message
     attr_accessor :address, :time, :args

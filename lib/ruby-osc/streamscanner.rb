@@ -1,5 +1,8 @@
 # encoding: UTF-8
 require 'strscan'
+
+require 'ruby-osc/message'
+
 module OSC
   class StreamScanner
     def initialize

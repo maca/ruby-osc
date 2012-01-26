@@ -1,4 +1,5 @@
 # encoding: UTF-8
+require 'ruby-osc/helper'
 module OSC
   class Bundle < Array
     attr_accessor :timetag

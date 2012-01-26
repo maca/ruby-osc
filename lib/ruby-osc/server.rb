@@ -1,4 +1,6 @@
 # encoding: UTF-8
+require 'eventmachine'
+require 'ruby-osc/helper'
 
 module OSC
   class Server
