@@ -56,7 +56,7 @@ module OSC
           scanner.pos += OSC.padding_size(size + 4)
           args.push Blob.new(str)
         else
-          raise DecodeError, "#{ t } is not a known tag"
+          raise DecodeError, "#{ tag } is not a known tag"
         end
       end
 

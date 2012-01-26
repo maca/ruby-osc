@@ -169,5 +169,13 @@ describe Message do
       end
       it_should_behave_like 'Encodable Message'
     end
-  end    
+
+    describe 'Invalid message' do
+      it "should raise if invalid tag is used" do
+        lambda do
+          Message.decode("/foo/bar\000\000\000\000,k\000\000\000\000\000\020test blob\000\000\000".force_encoding("binary"))
+        end.should raise_exception(DecodeError)
+      end
+    end
+  end
 end
