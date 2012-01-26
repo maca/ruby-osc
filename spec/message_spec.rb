@@ -1,3 +1,4 @@
+# encoding: UTF-8
 require "#{ File.dirname __FILE__ }/spec_helper"
 
 describe Message do
@@ -86,7 +87,7 @@ describe Message do
     describe 'Address' do
       before do
         @message  = Message.new('/foo/bar/long/very/long/long/long/address')
-        @expected = "/foo/bar/long/very/long/long/long/address\000\000\000,\000\000\000"
+        @expected = "/foo/bar/long/very/long/long/long/address\000\000\000,\000\000\000".force_encoding("binary")
       end
       it_should_behave_like 'Encodable Message'
     end
@@ -94,7 +95,7 @@ describe Message do
     describe 'Integer' do
       before do
         @message  = Message.new('/foo/barz', 2)
-        @expected = "/foo/barz\000\000\000,i\000\000\000\000\000\002"
+        @expected = "/foo/barz\000\000\000,i\000\000\000\000\000\002".force_encoding("binary")
       end
       it_should_behave_like 'Encodable Message'
     end
@@ -102,7 +103,7 @@ describe Message do
     describe 'Negative Integer' do
       before do
         @message  = Message.new('/foo/barz', -2)
-        @expected = "/foo/barz\000\000\000,i\000\000\377\377\377\376"
+        @expected = "/foo/barz\000\000\000,i\000\000\377\377\377\376".force_encoding("binary")
       end
       it_should_behave_like 'Encodable Message'
     end
@@ -126,7 +127,15 @@ describe Message do
     describe 'String' do
       before do
         @message  = Message.new('/foo/bar', 'a string to encode')
-        @expected = "/foo/bar\000\000\000\000,s\000\000a string to encode\000\000"
+        @expected = "/foo/bar\000\000\000\000,s\000\000a string to encode\000\000".force_encoding("binary")
+      end
+      it_should_behave_like 'Encodable Message'
+    end
+
+    describe 'UTF8 String' do
+      before do
+        @message  = Message.new('/foo/bar', 'a string to äncode')
+        @expected = "/foo/bar\000\000\000\000,s\000\000a string to äncode\000".force_encoding("binary")
       end
       it_should_behave_like 'Encodable Message'
     end
@@ -142,13 +151,13 @@ describe Message do
     describe 'Blob' do
       before do
         @message  = Message.new('/foo/bar', Blob.new('test blob'))
-        @expected = "/foo/bar\000\000\000\000,b\000\000\000\000\000\ttest blob\000\000\000"
+        @expected = "/foo/bar\000\000\000\000,b\000\000\000\000\000\ttest blob\000\000\000".force_encoding("binary")
       end
       it_should_behave_like 'Encodable Message'
       
       it "should raise if size doesn't correspond and return empty message" do
         lambda do
-          Message.decode("/foo/bar\000\000\000\000,b\000\000\000\000\000\020test blob\000\000\000")
+          Message.decode("/foo/bar\000\000\000\000,b\000\000\000\000\000\020test blob\000\000\000".force_encoding("binary"))
         end.should raise_error
       end
     end
@@ -156,7 +165,7 @@ describe Message do
     describe 'Lots of ints' do
       before do
         @message  = Message.new('/bar/foo', 4, 3, 2, 1)
-        @expected = "/bar/foo\000\000\000\000,iiii\000\000\000\000\000\000\004\000\000\000\003\000\000\000\002\000\000\000\001" 
+        @expected = "/bar/foo\000\000\000\000,iiii\000\000\000\000\000\000\004\000\000\000\003\000\000\000\002\000\000\000\001".force_encoding("binary")
       end
       it_should_behave_like 'Encodable Message'
     end

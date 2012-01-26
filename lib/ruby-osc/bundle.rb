@@ -1,3 +1,4 @@
+# encoding: UTF-8
 module OSC
   class Bundle < Array
     attr_accessor :timetag

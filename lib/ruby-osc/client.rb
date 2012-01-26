@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # From the Funaba osc gem:
 module OSC
   class Client

@@ -1,3 +1,4 @@
+# encoding: UTF-8
 require 'rubygems'
 require 'eventmachine'
 require 'socket' # Strange side effects with eventmachine udp client and SuperCollider
@@ -49,8 +50,8 @@ module OSC
     case obj
     when Float  then [obj, 'f', 'g']
     when Fixnum then [obj, 'i', 'N']
-    when Blob   then [[obj.size, obj], 'b', "Na*x#{ padding_size obj.size + 4 }"]
-    when String then [obj, 's', "Z*x#{ padding_size obj.size + 1 }"]
+    when Blob   then [[obj.bytesize, obj], 'b', "Na*x#{ padding_size obj.bytesize + 4 }"]
+    when String then [obj, 's', "Z*x#{ padding_size obj.bytesize + 1 }"]
     when Time
       t1, fr = (obj.to_f + 2208988800).divmod(1)
       t2 = (fr * (2**32)).to_i

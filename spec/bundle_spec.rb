@@ -1,3 +1,4 @@
+# encoding: UTF-8
 require "#{ File.dirname __FILE__ }/spec_helper"
 
 describe Bundle do
@@ -42,7 +43,7 @@ describe Bundle do
   describe 'Empty bundle nil timetag' do
     before do
       @bundle   = Bundle.new
-      @expected = "#bundle\000\000\000\000\000\000\000\000\001"
+      @expected = "#bundle\000\000\000\000\000\000\000\000\001".force_encoding("binary")
     end
     it_should_behave_like 'Encodable Bundle'
   end
@@ -66,7 +67,7 @@ describe Bundle do
   describe 'Nested bundles' do
     before do
       @bundle   = Bundle.new( nil, Bundle.new(nil, Message.new('/a')), Message.new('/b') )
-      @expected = "#bundle\000\000\000\000\000\000\000\000\001\000\000\000\034#bundle\000\000\000\000\000\000\000\000\001\000\000\000\b/a\000\000,\000\000\000\000\000\000\b/b\000\000,\000\000\000"
+      @expected = "#bundle\000\000\000\000\000\000\000\000\001\000\000\000\034#bundle\000\000\000\000\000\000\000\000\001\000\000\000\b/a\000\000,\000\000\000\000\000\000\b/b\000\000,\000\000\000".force_encoding("binary")
     end
     it_should_behave_like 'Encodable Bundle'
   end
@@ -90,7 +91,7 @@ describe Bundle do
   end
   
   it 'Should raise OSC::DecodeError with bad encoded bundle' do
-    bad_data = "#bundle\000\000\000\000\000\000\000\000\001\000\000\000\034#bundle\000\000\000\000\000\001\000\000\000\b/a\000\000,\000\000\000\000\000\000\b/b\000\000,\000\000\000"
+    bad_data = "#bundle\000\000\000\000\000\000\000\000\001\000\000\000\034#bundle\000\000\000\000\000\001\000\000\000\b/a\000\000,\000\000\000\000\000\000\b/b\000\000,\000\000\000".force_encoding("binary")
     lambda { Bundle.decode bad_data }.should raise_error(DecodeError)
   end
 end

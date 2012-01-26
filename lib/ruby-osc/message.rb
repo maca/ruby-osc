@@ -1,3 +1,4 @@
+# encoding: UTF-8
 module OSC
   class Message
     attr_accessor :address, :time, :args
@@ -48,7 +49,7 @@ module OSC
         when 's'
           str = scanner.scan(/[^\000]+\000/)
           scanner.pos += OSC.padding_size(str.size)
-          args.push str.chomp("\000")
+          args.push str.chomp("\000").force_encoding("UTF-8")
         when 'b'
           size = scanner.scan(/.{4}/).unpack('N').first
           str  = scanner.scan(/.{#{ size }}/nm)
