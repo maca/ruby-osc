@@ -1,4 +1,3 @@
-require 'rubygems'
 # require "#{ File.dirname __FILE__ }/../lib/ruby-osc" 
 require 'ruby-osc'
 
