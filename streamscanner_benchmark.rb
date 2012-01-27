@@ -2,7 +2,7 @@ require 'benchmark'
 
 $:.unshift( File.join( File.dirname( __FILE__), 'lib' ) )
 
-require 'ruby-osc/streamscanner.rb'
+require 'ruby-osc/streamscanner'
 
 @ss = OSC::StreamScanner.new
 
