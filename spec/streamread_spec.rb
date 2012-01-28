@@ -27,7 +27,7 @@ describe StreamScanner do
     @ss << "/bar/foo\000\000\000\000,iiii\000\000\000\000\000\000\004\000\000\000\003\000\000".force_encoding("binary")
     @ss << "\000\002\000\000\000\001/bar/foo\000\000\000\000,iiii\000\000\000\000\000\000\004".force_encoding("binary")
     @ss.tryparse.should == Message.new('/bar/foo', 4, 3, 2, 1)
-    @ss << "\000\000\000\003\000\000\000\002\000\000\000\001"
+    @ss << "\000\000\000\003\000\000\000\002\000\000\000\001".force_encoding("binary")
     @ss.tryparse.should == Message.new('/bar/foo', 4, 3, 2, 1)
   end
 
