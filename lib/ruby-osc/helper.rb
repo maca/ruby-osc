@@ -1,5 +1,15 @@
 # encoding: UTF-8
+if RUBY_VERSION.to_f < 1.9
+  class String
+    def force_encoding x
+      # Nothing
+      self
+    end
+  end
+end
+
 module OSC
+
   class DecodeError < StandardError; end
 
   class Blob < String; end
