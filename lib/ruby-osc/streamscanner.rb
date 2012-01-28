@@ -10,7 +10,11 @@ module OSC
     end
 
     def << arg
-      @scanner << arg
+      if @scanner.string.frozen? #Bug? in ruby 1.8.7
+        @scanner.string = @scanner.string + arg
+      else
+        @scanner << arg
+      end
     end
 
     def tryparse
