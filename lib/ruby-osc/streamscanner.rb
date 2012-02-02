@@ -17,6 +17,10 @@ module OSC
       end
     end
 
+    def rest_size
+      @scanner.rest.size
+    end
+
     def tryparse
       # TODO check for bundle - use OSC.decode
       m = Message.decode_message @scanner
