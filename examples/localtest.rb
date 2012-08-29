@@ -1,8 +1,9 @@
+$:.unshift( File.join( File.dirname( __FILE__), '..', 'lib' ) ) 
 require 'ruby-osc'
 
-include  OSC
+include OSC
 
-EventMachine.run do
+OSC.run do
   server = Server.new 9090
   client = Client.new 9090
 
@@ -26,5 +27,3 @@ EventMachine.run do
   client.send Message.new('/foo/bar/zar', 1, 1.2, 'a string')
   client.send Bundle.new(Time.now + 2, Message.new('/exit'))
 end
-
-OSC::Thread.join

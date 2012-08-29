@@ -12,14 +12,6 @@ require 'ruby-osc/client'
 require "ruby-osc/version"
 
 module OSC
-  Thread  = EM.reactor_running? ? nil : Thread.new { 
-    EM.run do 
-      EM.error_handler { |e| puts e }
-      EM.set_quantum 5 
-    end	
-  }
-  Thread.run if RUBY_VERSION.to_f >= 1.9
-    
   class DecodeError < StandardError; end
   
   class Blob < String; end
@@ -44,6 +36,14 @@ module OSC
   
   def self.padding_size size
     (4 - (size) % 4) % 4 
+  end
+
+  def self.run
+    EM.run do
+      EM.error_handler { |e| puts e }
+      EM.set_quantum 5 
+      yield
+    end
   end
   
   def self.encoding_directive obj #:nodoc:

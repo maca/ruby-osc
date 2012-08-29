@@ -1,3 +1,3 @@
 module Osc
-  VERSION = "0.3.4"
+  VERSION = "0.31.0"
 end
