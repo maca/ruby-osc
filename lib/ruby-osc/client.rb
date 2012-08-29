@@ -2,7 +2,7 @@
 module OSC
   class Client
  
-    def initialize port, host = 'localhost'
+    def initialize port, host = '127.0.0.1'
       @socket = UDPSocket.new
       @socket.connect host, port
     end

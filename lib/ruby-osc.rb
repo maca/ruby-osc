@@ -4,6 +4,7 @@ require 'socket' # Strange side effects with eventmachine udp client and SuperCo
 require 'strscan'
 require 'thread'
 
+$:.unshift( File.join( File.dirname( __FILE__), '..', 'lib' ) ) 
 require 'ruby-osc/message'
 require 'ruby-osc/bundle'
 require 'ruby-osc/server'

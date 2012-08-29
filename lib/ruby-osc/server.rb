@@ -1,9 +1,8 @@
-
 module OSC
   class Server
     attr_accessor :port, :address
 
-    def initialize port, address = 'localhost'
+    def initialize port, address = '127.0.0.1'
       @port, @address   = port, address
       @queue, @patterns = [], []
       @mutex = Mutex.new
