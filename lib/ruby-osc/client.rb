@@ -7,6 +7,8 @@ module OSC
 
     def initialize port, host = '127.0.0.1'
       @socket = UDPSocket.new
+      @socket = UDPSocket.open
+      @socket.setsockopt(Socket::SOL_SOCKET, Socket::SO_BROADCAST, true)
       @socket.connect host, port
     end
 
