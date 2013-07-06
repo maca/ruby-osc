@@ -36,7 +36,7 @@ module OSC
       when Message
         dispatch decoded
       end
-      rescue => e 
+      rescue => e
         warn "Bad data received: #{ e }"
     end
 
@@ -54,7 +54,7 @@ module OSC
     end
 
     def dispatch message
-      @patterns.each do |pat, block| 
+      @patterns.each do |pat, block|
         block.call(*message.to_a) if pat === message.address
       end
     end
@@ -65,7 +65,7 @@ module OSC
       end
 
       def receive_data data
-        @server.receive(data) 
+        @server.receive(data)
       end
     end
   end

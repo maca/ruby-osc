@@ -4,7 +4,7 @@ require 'socket' # Strange side effects with eventmachine udp client and SuperCo
 require 'strscan'
 require 'thread'
 
-$:.unshift( File.join( File.dirname( __FILE__), '..', 'lib' ) ) 
+$:.unshift( File.join( File.dirname( __FILE__), '..', 'lib' ) )
 require 'ruby-osc/message'
 require 'ruby-osc/bundle'
 require 'ruby-osc/server'
@@ -13,15 +13,15 @@ require "ruby-osc/version"
 
 module OSC
   class DecodeError < StandardError; end
-  
+
   class Blob < String; end
-  
+
   module OSCArgument
     def to_osc_type
       raise NotImplementedError, "#to_osc_type method should be implemented for #{ self.class }"
     end
   end
-  
+
   def self.coerce_argument arg
     case arg
     when OSCArgument then arg.to_osc_type
@@ -29,23 +29,23 @@ module OSC
     when String, Float, Fixnum, Blob, String then arg # Pure osc 1.0 specification
     else raise(TypeError, "#{ arg.inspect } is not a valid Message argument") end
   end
-  
+
   def self.decode str #:nodoc:
     str.match(/^#bundle/) ? Bundle.decode(str) : Message.decode(str)
   end
-  
+
   def self.padding_size size
-    (4 - (size) % 4) % 4 
+    (4 - (size) % 4) % 4
   end
 
   def self.run
     EM.run do
       EM.error_handler { |e| puts e }
-      EM.set_quantum 5 
+      EM.set_quantum 5
       yield
     end
   end
-  
+
   def self.encoding_directive obj #:nodoc:
     case obj
     when Float  then [obj, 'f', 'g']
