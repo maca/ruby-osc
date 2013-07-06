@@ -23,6 +23,7 @@ OSC.run do
     exit
   end
 
+
   client.send Message.new('/foo/bar', 1, 1.2, 'a string')
   client.send Message.new('/foo/bar/zar', 1, 1.2, 'a string')
   client.send Bundle.new(Time.now + 2, Message.new('/exit'))

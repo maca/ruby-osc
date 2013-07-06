@@ -5,6 +5,8 @@ require 'strscan'
 require 'thread'
 
 $:.unshift( File.join( File.dirname( __FILE__), '..', 'lib' ) )
+
+# encoding: UTF-8
 require 'ruby-osc/message'
 require 'ruby-osc/bundle'
 require 'ruby-osc/server'
@@ -50,7 +52,7 @@ module OSC
     case obj
     when Float  then [obj, 'f', 'g']
     when Fixnum then [obj, 'i', 'N']
-    when Blob   then [[obj.bytesize, obj], 'b', "Na*x#{ padding_size obj.size + 4 }"]
+    when Blob   then [[obj.bytesize, obj], 'b', "Na*x#{ padding_size obj.bytesize + 4 }"]
     when String then [obj, 's', "Z*x#{ padding_size obj.bytesize + 1 }"]
     when Time
       t1, fr = (obj.to_f + 2208988800).divmod(1)

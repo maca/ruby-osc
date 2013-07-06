@@ -1,3 +1,6 @@
+# encoding: UTF-8
+require 'socket' # Strange side effects with eventmachine udp client and SuperCollider
+
 # From the Funaba osc gem:
 module OSC
   class Client
