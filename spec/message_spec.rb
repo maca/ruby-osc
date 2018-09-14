@@ -160,7 +160,7 @@ describe Message do
       it "should raise if size doesn't correspond and return empty message" do
         lambda do
           Message.decode("/foo/bar\000\000\000\000,b\000\000\000\000\000\020test blob\000\000\000".force_encoding("binary"))
-        end.should raise_error
+        end.should raise_error(OSC::DecodeError)
       end
     end
 
