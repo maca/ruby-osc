@@ -1,18 +1,17 @@
 # encoding: UTF-8
-require 'socket' # Strange side effects with eventmachine udp client and SuperCollider
+require "socket" # Strange side effects with eventmachine udp client and SuperCollider
 
 # From the Funaba osc gem:
 module OSC
   class Client
-
-    def initialize port, host = '127.0.0.1'
+    def initialize(port, host = "127.0.0.1")
       @socket = UDPSocket.new
       @socket = UDPSocket.open
       @socket.setsockopt(Socket::SOL_SOCKET, Socket::SO_BROADCAST, true)
       @socket.connect host, port
     end
 
-    def send mesg, *args
+    def send(mesg, *_args)
       @socket.send mesg.encode, 0
     end
   end

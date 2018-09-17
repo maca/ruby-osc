@@ -2,7 +2,7 @@ module OSC
   class Server
     attr_accessor :port, :address
 
-    def initialize port, address = '127.0.0.1'
+    def initialize(port, address = "127.0.0.1")
       @port, @address   = port, address
       @queue, @patterns = [], []
       @mutex = Mutex.new
@@ -20,27 +20,28 @@ module OSC
       @timer.cancel
     end
 
-    def add_pattern pattern, &block
-      raise ArgumentError.new("A block must be given") unless block
+    def add_pattern(pattern, &block)
+      raise ArgumentError, "A block must be given" unless block
       @patterns << [pattern, block]
     end
 
-    def delete_pattern pattern
+    def delete_pattern(pattern)
       @patterns.delete pattern
     end
 
-    def receive data
+    def receive(data)
       case decoded = OSC.decode(data)
       when Bundle
         decoded.timetag.nil? ? decoded.each{ |m| dispatch m } : @mutex.synchronize{@queue.push(decoded)}
       when Message
         dispatch decoded
       end
-      rescue => e
-        warn "Bad data received: #{ e }"
+    rescue => e
+      warn "Bad data received: #{ e }"
     end
 
     private
+
     def check_queue
       @timer = EventMachine::PeriodicTimer.new 0.002 do
         now  = Time.now
@@ -53,18 +54,18 @@ module OSC
       end
     end
 
-    def dispatch message
+    def dispatch(message)
       @patterns.each do |pat, block|
         block.call(*message.to_a) if pat === message.address
       end
     end
 
     class Connection < EventMachine::Connection #:nodoc:
-      def initialize server
+      def initialize(server)
         @server = server
       end
 
-      def receive_data data
+      def receive_data(data)
         @server.receive(data)
       end
     end

@@ -1,5 +1,5 @@
-require 'rubygems'
-require 'ruby-osc'
+require "rubygems"
+require "ruby-osc"
 
 include OSC
 
@@ -7,7 +7,7 @@ OSC.run do
   server = Server.new 9090
   client = Client.new 9090
 
-  server.add_pattern /.*/ do |*args|       # this will match any address
+  server.add_pattern(/.*/) do |*args|       # this will match any address
     p "/.*/:       #{ args.join(', ') }"
   end
 
@@ -19,12 +19,12 @@ OSC.run do
     p "'/foo/bar': #{ args.join(', ') }"
   end
 
-  server.add_pattern "/exit" do |*args|    # this will just match /exit address
+  server.add_pattern "/exit" do |*_args|    # this will just match /exit address
     exit
   end
 
 
-  client.send Message.new('/foo/bar', 1, 1.2, 'a string')
-  client.send Message.new('/foo/bar/zar', 1, 1.2, 'a string')
-  client.send Bundle.new(Time.now + 2, Message.new('/exit'))
+  client.send Message.new("/foo/bar", 1, 1.2, "a string")
+  client.send Message.new("/foo/bar/zar", 1, 1.2, "a string")
+  client.send Bundle.new(Time.now + 2, Message.new("/exit"))
 end

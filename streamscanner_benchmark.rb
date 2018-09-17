@@ -1,8 +1,8 @@
-require 'benchmark'
+require "benchmark"
 
-$:.unshift( File.join( File.dirname( __FILE__), 'lib' ) )
+$LOAD_PATH.unshift( File.join( File.dirname( __FILE__), "lib" ) )
 
-require 'ruby-osc/streamscanner'
+require "ruby-osc/streamscanner"
 
 @ss = OSC::StreamScanner.new
 
@@ -30,8 +30,11 @@ Benchmark.bm(23) do |x|
 
   x.report("parse failure") do
     count.times do
-      @ss.tryparse rescue nil
+      begin
+        @ss.tryparse
+      rescue
+        nil
+      end
     end
   end
 end
-
