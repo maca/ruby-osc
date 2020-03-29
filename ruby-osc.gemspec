@@ -13,9 +13,6 @@ Gem::Specification.new do |s|
   s.description = "Concise OSC Ruby implementation based on EventMachine"
   s.licenses    = ['MIT']
 
-
-  s.rubyforge_project = "ruby-osc"
-
   s.add_development_dependency "rspec", "~> 3.8"
   s.add_development_dependency "bundler", "~> 1.0"
   s.add_dependency "eventmachine", "~> 1.2"
