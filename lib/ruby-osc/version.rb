@@ -1,4 +1,4 @@
 # encoding: UTF-8
 module Osc
-  VERSION = "0.5.0".freeze
+  VERSION = "1.0.0".freeze
 end
