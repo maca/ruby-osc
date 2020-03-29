@@ -54,6 +54,8 @@ module OSC
             args.push( int > (2**31 - 1) ? int - 2**32 : int )
           when "f"
             args.push scanner.scan(/.{4}/nm).unpack("g").first
+          when "d"
+            args.push scanner.scan(/.{8}/nm).unpack("G").first
           when "s"
             str = scanner.scan(/[^\000]+\000/)
             scanner.pos += OSC.padding_size(str.size)

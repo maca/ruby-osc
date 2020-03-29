@@ -1,4 +1,4 @@
-# encoding: UTF-8
+# encoding: utf-8
 require "#{ File.dirname __FILE__ }/spec_helper"
 
 describe Message do
@@ -82,7 +82,7 @@ describe Message do
       end
 
       it "should actually decode" do
-        expect(Message.decode(@expected).to_a.inspect).to eq(@message.to_a.inspect.to_s) # Problem with float comparing
+        expect(Message.decode(@expected)).to eq(@message)
       end
     end
 
@@ -124,6 +124,30 @@ describe Message do
         @expected = [47, 102, 111, 111, 47, 98, 97, 114, 0, 0, 0, 0, 44, 102, 0, 0, 191, 140, 204, 205].pack("C*")
       end
       it_should_behave_like "Encodable Message"
+    end
+
+    describe "Double" do
+      before do
+        @message  = Message.new("/foo/bar", 1.100000023841858)
+
+        @expected = [
+          47, 102, 111, 111, 47, 98, 97, 114, 0, 0, 0, 0, 44, 100,
+          0, 0, 63, 241, 153, 153, 160, 0, 0, 0
+        ].pack("C*")
+      end
+
+      it "should decode to message" do
+        expect(Message.decode(@expected)).to be_a(Message)
+      end
+
+      it "should decode address" do
+        expect(Message.decode(@expected).address)
+          .to eq(@message.address)
+      end
+
+      it "should actually decode" do
+        expect(Message.decode(@expected)).to eq(@message)
+      end
     end
 
     describe "String" do
